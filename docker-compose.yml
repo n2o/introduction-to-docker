@@ -1,0 +1,15 @@
+version: "3.1"
+
+services:
+  flask:
+    build: python/
+    ports:
+      - "5000:5000"
+
+  redis:
+    image: redis:alpine
+
+  db:
+    image: postgres:10-alpine
+    environment:
+      - "POSTGRES_PASS=root"
