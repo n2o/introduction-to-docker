@@ -11,3 +11,12 @@ erreichen.
 
 Diese Image wird mit docker-compose gestartet und erzeugt auch einen
 entsprechenden Container, in dem redis läuft.
+
+Diesen Service können Sie mit folgenden Befehl aus diesem Verzeichnis heraus
+starten:
+
+    docker-compose up
+    
+Dafür müssen Sie docker-compose installiert haben. Der Webservice ist dann unter
+[http://localhost:5000](http://localhost:5000) erreichbar.
+

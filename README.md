@@ -23,14 +23,7 @@ Unter `http` finden Sie ein einfaches Beispiel, wie man einen Webserver starten
 kann, seine eigenen HTML-Dateien einbinden kann und diese dann im NGINX
 darstellen lassen kann.
 
-### docker-compose
+### python
 
 Als letztes haben wir docker-compose kennengelernt, womit wir u.A. einen
 Python-Webserver gestartet haben, der einen Wert in einer redis-Instanz erhöht.
-Diesen Service können Sie mit folgenden Befehl aus diesem Verzeichnis heraus
-starten:
-
-    docker-compose up
-    
-Dafür müssen Sie docker-compose installiert haben. Der Webservice ist dann unter
-[http://localhost:5000](http://localhost:5000) erreichbar.
