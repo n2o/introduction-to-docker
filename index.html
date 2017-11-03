@@ -1,0 +1,344 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Einführung in Docker</title>
+
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="reveal.js/lib/css/github.css">
+
+  <link rel="stylesheet" href="css/theme/hhu/hhu.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match(/print-pdf/gi) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+      document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+
+  <style>
+    .bg-blue {
+      background-color: #176fc1;
+    }
+
+    .bg-red {
+      background-color: #be0a26;
+    }
+
+    .bg-green {
+      background-color: #97bf0d;
+    }
+
+    .bg-grey {
+      background-color: #d9dadb;
+    }
+
+    .box-white {
+      background-color: white;
+      border: 0.5px solid #176fc1 !important;
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div id="logo">
+    <object data="css/theme/hhu/img/unilogo.svg" type="image/svg+xml"></object>
+  </div>
+  <header><span></span></header>
+  <div id="slidenumber"></div>
+
+  <div class="slides">
+    <section data-state="footer">
+      <div id="title">
+        <h3>Einführung in <img src="img/docker_horizontal.svg"
+                               style="height: 1.3em;line-height:1.5em;margin-bottom: -12px;"></h3>
+        <hr/>
+        <p style="font-size: 0.5em;">
+          <strong>Christian Meter</strong><br>
+        </p>
+        <small>
+          Softwareentwicklung im Team WS17/18<br>
+          02.11.2017
+        </small>
+      </div>
+    </section>
+
+    <section data-state="motivation">
+      <style>.motivation header span:after {
+        content: "Motivation";
+      } </style>
+
+      <p><strong>Szenario: Wir entwickeln einen Webservice</strong></p>
+      <p>Dafür benötigen wir einen "klassischen" Webstack:</p>
+      <ul>
+        <li>Webserver</li>
+        <li>Laufzeitumgebung</li>
+        <li>Datenbank</li>
+        <li>Cache</li>
+      </ul>
+    </section>
+
+    <section data-state="motivation">
+      <img src="img/LEMP_tutorial.png" alt="" style="width:500px;">
+      <div>Für die Installation gibt es durchaus Anleitungen...</div>
+      <small>
+        <small>
+          <a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-in-ubuntu-16-04">
+            https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-in-ubuntu-16-04
+          </a>
+        </small>
+      </small>
+    </section>
+
+    <section data-state="motivation">
+      <img src="img/splitted-0.png" alt="" style="width: 180px;">
+      <img src="img/splitted-1.png" alt="" style="width: 180px;">
+      <img src="img/splitted-2.png" alt="" style="width: 180px;">
+      <img src="img/splitted-3.png" alt="" style="width: 180px;">
+      <div>
+        ... auf handlichen (und gut gemeinten) <strong>sechs</strong> DIN A4 Seiten
+      </div>
+    </section>
+
+    <section data-state="motivation">
+      <p>
+        <strong>Wer muss diese Tutorials lesen?</strong>
+      </p>
+      <div class="fragment">
+        <p>Jeder Entwickler im Team</p>
+        <p>Jeder Admin, der diesen Stack deployen möchte</p>
+      </div>
+    </section>
+
+    <section data-state="motivation">
+      <p>
+        <strong>Welche Nachteile gibt es?</strong>
+      </p>
+      <ul class="fragment">
+        <li>Redundanz</li>
+        <li>Zeitaufwand</li>
+        <li>Fehleranfälligkeit</li>
+        <li>...</li>
+      </ul>
+    </section>
+
+    <section data-state="lösungsansätze">
+      <style>.lösungsansätze header span:after {
+        content: "Lösungsansätze";
+      } </style>
+
+      <p>"Rezepte" für wiederkehrende Installationsschritte</p>
+      <p>Virtualisierung von Entwicklungsumgebungen</p>
+      <ul>
+        <li>VirtualBox</li>
+        <li>Vagrant</li>
+        <li>Linux Containers</li>
+        <li>...</li>
+        <li><img src="img/docker_horizontal.svg" style="height: 1em;line-height:1.5em;margin-bottom: -4px;"></li>
+      </ul>
+    </section>
+
+    <!--<section data-state="docker">-->
+      <!--<style>.docker header span:after {-->
+        <!--content: "Virtualisierung mit Docker";-->
+      <!--} </style>-->
+      <!--<p>Aufhebung externer Abhängigkeiten => Applikationen lassen sich autonom über Systeme hinweg verschieben</p>-->
+
+      <!--<blockquote>-->
+        <!--"Prior to Docker, the portability of an application or service was never guaranteed."-->
+      <!--</blockquote>-->
+      <!--David Messina, Docker-->
+    <!--</section>-->
+
+    <section data-state="vorstellung-docker">
+      <style>.vorstellung-docker header span:after {
+        content: "Vorstellung: Docker";
+      } </style>
+
+      <img src="img/docker_whale.svg" style="height: 2em;">
+      <p>Open Source</p>
+      <p>Erster Commit 2013: nach einem Monat 10.000 Tester</p>
+      <p>2014: 2,75 Millionen Downloads</p>
+      <p>2015: 100+ Millionen Downloads</p>
+      <p>Heute: fast überall Standard</p>
+    </section>
+
+    <section data-state="begriffe-docker">
+      <style>.begriffe-docker header span:after {
+        content: "Begriffe";
+      } </style>
+
+      <strong>Container</strong>
+      <p>Instanz eines Images.</p>
+
+      <strong>Image</strong>
+      <p>Fertige Umgebung, in der Code ausgeführt werden kann. Besteht aus (mehreren) Layern.</p>
+
+      <strong>Layer</strong>
+      <p>Eine Instruktion zur Erstellung eines Images.</p>
+    </section>
+
+    <section data-state="dockervsvm">
+      <style>.dockervsvm header span:after {
+        content: "Virtuelle Maschinen vs. Docker-Container";
+      } </style>
+      <img src="img/dockervsvm.png" alt="">
+      <small>
+        <small>
+          <a href="https://www.crisp-research.com/docker-container-die-zukunft-moderner-applikationen-und-multi-cloud-deployments/">
+            https://www.crisp-research.com/docker-container-die-zukunft-moderner-applikationen-und-multi-cloud-deployments/
+          </a>
+        </small>
+      </small>
+    </section>
+
+    <section data-state="vorteile-docker">
+      <style>.vorteile-docker header span:after {
+        content: "Was nutzt mir das?";
+      } </style>
+
+      <p>
+        <strong>Vorteile</strong>
+      </p>
+
+      <ul>
+        <li style="padding-bottom: 0.5em;">Portabilität von Anwendungen
+          <ul>
+            <li>Lösung von Anwendung und Infrastruktur</li>
+            <li>weniger Abhängigkeiten</li>
+          </ul>
+        </li>
+        <li style="padding-bottom: 0.5em;">Einfacher
+          <ul>
+            <li>man muss kein Linux-Profi sein</li>
+          </ul>
+        </li>
+        <li style="padding-bottom: 0.5em;">Weniger Sicherheitslücken
+          <ul>
+            <li>Minimale Images haben nur die notwendige Software</li>
+            <li>... aber Kernel wird geteilt</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section data-state="vorteile-docker">
+      <p>
+        <strong>Gleiche Umgebung<br>für Development, Testing und Production</strong>
+      </p>
+      <img src="img/worksonmymachine_forbidden.jpg" alt="" style="height: 300px;">
+    </section>
+
+    <section data-state="systemvoraussetzungen">
+      <style>.systemvoraussetzungen header span:after {
+        content: "Systemvoraussetzungen";
+      } </style>
+
+      <strong>Linux</strong>
+      <p>Nativer Support</p>
+
+      <strong>macOS</strong>
+      <p>Linux-Kernel über VirtualBox bereitgestellt</p>
+
+      <strong>Windows</strong>
+      <p>Win 10 Pro, Enterprise und Education.<br>Linux-Kernel per VirtualBox oder nativ per Hyper-V.</p>
+      <small><a href="https://www.zim.hhu.de/services-des-zim/software/faqs-rund-um-software.html">Dreamspark FAQ der
+        HHU</a></small>
+    </section>
+
+    <section data-state="demo-header">
+      <style>.demo-header header span:after {
+        content: "Demo";
+      } </style>
+
+      <pre><code>
+                ---------------
+               < Time to code! >
+                ---------------
+                  \
+                   \
+                    \
+                                  ##        .
+                            ## ## ##       ==
+                         ## ## ## ##      ===
+                     /""""""""""""""""___/ ===
+                ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
+                     \______ o          __/
+                      \    \        __/
+                        \____\______/
+      </code></pre>
+    </section>
+
+    <section data-state="demo-header">
+      <p>
+        Teile des Codes aus der Demo-Session sind hier erreichbar:
+      </p>
+      <p>
+        <a href="https://github.com/n2o/introduction-to-docker">
+          https://github.com/n2o/introduction-to-docker
+        </a>
+      </p>
+    </section>
+
+    <section data-state="final">
+      <style>.final header span:after {
+        content: "Einführung in Docker";
+      } </style>
+
+      <h5>Was wir heute gelernt haben</h5>
+      <small>
+      <ul>
+        <li>Probleme beim verteilten Entwickeln von Software</li>
+        <li>Portabilität von Anwendungen mit <a href="https://www.docker.com/">Docker</a></li>
+        <li>Komposition verschiedener Komponenten mit <a href="https://docs.docker.com/compose/install/">Docker Compose</a></li>
+      </ul>
+      </small>
+
+      <div style="padding-top: 0.3em;">
+        <img src="img/docker_family.png" alt="" style="width: 250px; margin-bottom: 0;">
+        <br>
+        <small>
+          <small>
+            Bild: <a
+              href="https://foxutech.com/wp-content/uploads/2017/04/How-to-change-Docker-Image-default-Installation-Directory.png">foxutech.com</a>
+          </small>
+        </small>
+      </div>
+
+      <h6 style="padding-top: 1em;">Christian Meter<br>
+      <small>
+        meter@cs.uni-duesseldorf.de
+      </small></h6>
+
+    </section>
+
+  </div>
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+          controls: false,
+          history: true,
+          center: true,
+          // slideNumber: true,
+          transition: 'fade', // none/fade/slide/convex/concave/zoom
+          // More info https://github.com/hakimel/reveal.js#dependencies
+          dependencies: [
+              {
+                  src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+                  hljs.initHighlightingOnLoad();
+              }
+              }
+          ]
+      });
+  </script>
+</body>
+</html>
